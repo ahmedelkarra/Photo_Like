@@ -7,7 +7,7 @@ import UserShow from './UserShow'
 function UserMe() {
     const location = useLocation().pathname
     return (
-        <Typography component={'div'} height={'70dvh'}>
+        <Typography component={'div'} height={'90dvh'} margin={'10px 0'}>
             <AppBar position='static' color='success' sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px', width: { xs: '90%', md: '50%' }, margin: '0 auto', padding: '10px', borderRadius: '10px' }}>
                 <UserHeader />
             </AppBar>

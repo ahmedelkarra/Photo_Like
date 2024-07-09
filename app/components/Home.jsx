@@ -3,7 +3,7 @@ import React from 'react'
 
 function Home() {
     return (
-        <Typography sx={{ minHeight: '80dvh' }}>
+        <Typography sx={{ minHeight: '70dvh' }}>
             ds;lkf
         </Typography>
     )

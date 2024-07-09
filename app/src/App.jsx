@@ -11,8 +11,8 @@ import UserMe from '../components/UserMe';
 
 function App() {
   return (
-    <Typography component={'div'} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -24,8 +24,8 @@ function App() {
           </Route>
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </Typography>
+      </Typography>
+    </BrowserRouter>
   )
 }
 

@@ -5,7 +5,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 function Footer() {
     const date = new Date()
     return (
-        <AppBar position='static' color='success' sx={{ minHeight: '100px', padding: '5px' }}>
+        <AppBar position='static' color='success' sx={{ height: '120px', padding: '5px', bottom: 0 }}>
             <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <Typography variant='h6' component={'h2'}>Photo Like</Typography>
                 <Typography component={'div'} display={'flex'} gap={1}>

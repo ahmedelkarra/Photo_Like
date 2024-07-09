@@ -12,7 +12,7 @@ import { green } from '@mui/material/colors';
 export default function Register() {
     const [valueInputs, setValueInputs] = React.useState({ fName: '', lName: '', email: '', pass: '', confirmPass: '' })
     const [successMessage, setSuccessMessage] = React.useState('')
-    const [errorMessage, setErrorMessage] = React.useState('0')
+    const [errorMessage, setErrorMessage] = React.useState('')
     const [showPassword, setShowPassword] = React.useState(false);
     const [showconfirmPass, setShowconfirmPass] = React.useState(false);
 
@@ -28,7 +28,7 @@ export default function Register() {
     }
     return (
         <Typography component={'form'} onSubmit={(e) => handleSubmit(e)}>
-            <Grid container bgcolor={green['400']} width={{ xs: '95%', md: '60%' }} minHeight={{ xs: '65dvh', md: '40dvh' }} margin={'auto'} justifyContent={'center'} spacing={'3px'} padding={1} borderRadius={'5px'}>
+            <Grid container bgcolor={green['400']} width={{ xs: '95%', md: '60%' }} minHeight={{ xs: '70dvh', md: '40dvh' }} margin={'auto'} justifyContent={'center'} spacing={'3px'} padding={1} borderRadius={'5px'}>
                 <Grid item xs={12}>
                     <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '30%' }} padding={1}>Register Page</Typography>
                 </Grid>
