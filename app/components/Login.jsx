@@ -35,12 +35,13 @@ export default function InputAdornments() {
                     {errorMessage && <Alert severity="error" sx={{ width: { xs: '90%', md: '60%' }, margin: 'auto' }}>{errorMessage}</Alert>}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="filled-basic" label="Email" variant="filled" fullWidth onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
+                    <TextField id="filled-basic" label="Email" variant="filled" type='email' required fullWidth onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <FormControl sx={{ width: '100%' }} variant="filled" >
-                        <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                    <FormControl sx={{ width: '100%' }} variant="filled" required>
+                        <InputLabel htmlFor="filled-adornment-password" required>Password</InputLabel>
                         <FilledInput
+                            required
                             onChange={(e) => { setValueInputs({ ...valueInputs, pass: e.target.value }) }}
                             id="filled-adornment-password"
                             type={showPassword ? 'text' : 'password'}
