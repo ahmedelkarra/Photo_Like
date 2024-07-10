@@ -15,10 +15,12 @@ import { Link } from 'react-router-dom';
 import { green } from '@mui/material/colors';
 import logo from '../src/assets/logo.svg'
 import PhotoAdd from './PhotoAdd';
+import { IsUser } from '../context/IsUser';
 
 const pages = [{ title: 'Home', to: '/' }, { title: 'Login', to: '/login' }, { title: 'Register', to: '/register' }];
 
 function Header() {
+    const { isUser, setIsUser } = React.useContext(IsUser)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -90,14 +92,23 @@ function Header() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page, index) => (
-                                <Link to={page.to} key={index} style={{ textDecoration: 'none', color: green['800'] }}>
+                            {!isUser && <div>
+                                {pages.map((page, index) => (
+                                    <Link to={page.to} key={index} style={{ textDecoration: 'none', color: green['800'] }}>
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">{page.title}</Typography>
+                                        </MenuItem>
+                                    </Link>
+                                ))}
+                            </div>}
+                            {isUser && <div>
+                                <Link to={'/'} style={{ textDecoration: 'none', color: green['800'] }}>
                                     <MenuItem onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page.title}</Typography>
+                                        <Typography textAlign="center">Home</Typography>
                                     </MenuItem>
                                 </Link>
-                            ))}
-                            <PhotoAdd status={'xs'} />
+                                <PhotoAdd status={'xs'} />
+                            </div>}
                         </Menu>
                     </Box>
 
@@ -118,7 +129,7 @@ function Header() {
                             <Typography component={'img'} src={logo} width={35} height={35} />
                         </Link>
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    {!isUser && <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page, index) => (
                             <Link to={page.to} key={index} style={{ textDecoration: 'none' }}>
                                 <Button
@@ -129,10 +140,20 @@ function Header() {
                                 </Button>
                             </Link>
                         ))}
-                        <PhotoAdd status={'md'} />
-                    </Box>
+                    </Box>}
+                    {isUser && <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        <Link to={'/'} style={{ textDecoration: 'none' }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                Home
+                            </Button>
+                        </Link>
+                        {isUser && <PhotoAdd status={'md'} />}
+                    </Box>}
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    {isUser && <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -161,7 +182,7 @@ function Header() {
                                 <Typography textAlign="center" color={green['800']}>Logout</Typography>
                             </MenuItem>
                         </Menu>
-                    </Box>
+                    </Box>}
                 </Toolbar>
             </Container>
         </AppBar>
