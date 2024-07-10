@@ -3,7 +3,7 @@ const UserSchema = require('../models/userSchema')
 const router = require('express').Router()
 
 
-router.post('/me', async (req, res) => {
+router.get('/me', async (req, res) => {
     try {
         const token = req.cookies.token
         const data = tokenVerify(token)
