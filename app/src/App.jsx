@@ -23,16 +23,19 @@ function App() {
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
   const cookie = new Cookies()
 
-  console.log(cookie.get('token'));
   const handleUserInfo = () => {
     axiosControl.get('/me', { Cookie: { token: cookie.get('token') } })
       .then((e) => {
-        setUserInfo(e?.data?.message)
+        if (e?.data?.message) {
+          setUserInfo(e?.data?.message)
+          setIsUser(true)
+        }
       })
       .catch((err) => {
         console.log(err?.response?.data?.message);
       })
   }
+
   useEffect(() => {
     handleUserInfo()
   }, [isChange, isUser])
