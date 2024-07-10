@@ -1,3 +1,4 @@
+const { tokenSign } = require('../middleware/token')
 const UserSchema = require('../models/userSchema')
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
@@ -9,8 +10,9 @@ router.post('/register', async (req, res) => {
         try {
             const hashPass = bcrypt.hashSync(pass, 12)
             const user = await UserSchema.create({ fName: fName.trim().toLowerCase(), lName: lName.trim().toLowerCase(), email: email.trim().toLowerCase(), pass: hashPass })
+            const token = tokenSign({ fName, lName, email })
             if (user) {
-                res.status(201).json({ message: 'User has been created' })
+                res.status(201).json({ message: 'User has been created', token: token })
             } else {
                 res.status(403).json({ message: 'Email is already used' })
             }
