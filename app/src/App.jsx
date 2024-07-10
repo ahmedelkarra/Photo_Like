@@ -16,7 +16,7 @@ import AlreadyUser from '../components/AlreadyUser';
 import NotFoundPage from '../components/NotFoundPage';
 
 function App() {
-  const [isUser, setIsUser] = useState(true)
+  const [isUser, setIsUser] = useState(false)
   const [isChange, setIsChange] = useState(false)
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
   return (

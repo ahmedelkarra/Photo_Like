@@ -8,6 +8,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Alert, Button, Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { axiosControl } from '../utils/axiosControl';
 
 export default function Register() {
     const [valueInputs, setValueInputs] = React.useState({ fName: '', lName: '', email: '', pass: '', confirmPass: '' })
@@ -24,6 +25,14 @@ export default function Register() {
     };
     const handleSubmit = (e) => {
         e.preventDefault()
+        axiosControl.post('/register', valueInputs)
+            .then((e) => {
+                setSuccessMessage(e.data.message)
+            })
+            .catch((err) => {
+                setErrorMessage('err')
+                console.log(err);
+            })
         console.log(valueInputs);
     }
     return (
