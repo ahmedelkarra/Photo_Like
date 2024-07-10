@@ -12,6 +12,8 @@ import { IsUser } from '../context/IsUser';
 import { IsChange } from '../context/IsChange';
 import { UserInfo } from '../context/UserInfo';
 import { useState } from 'react';
+import AlreadyUser from '../components/AlreadyUser';
+import NotFoundPage from '../components/NotFoundPage';
 
 function App() {
   const [isUser, setIsUser] = useState(false)
@@ -26,12 +28,13 @@ function App() {
               <Header />
               <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/me' element={<UserMe />} >
+                <Route path='/login' element={isUser ? <AlreadyUser /> : <Login />} />
+                <Route path='/register' element={isUser ? <AlreadyUser /> : <Register />} />
+                {isUser && <Route path='/me' element={<UserMe />} >
                   <Route path='edit' element={<UserEdit />} />
                   <Route path='photo' element={<UserPhoto />} />
-                </Route>
+                </Route>}
+                <Route path='*' element={<NotFoundPage />} />
               </Routes>
               <Footer />
             </UserInfo.Provider>
