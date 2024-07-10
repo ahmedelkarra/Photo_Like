@@ -16,7 +16,7 @@ const cors = require('cors')
 
 const app = express();
 coonectDB()
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

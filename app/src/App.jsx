@@ -11,14 +11,31 @@ import UserMe from '../components/UserMe';
 import { IsUser } from '../context/IsUser';
 import { IsChange } from '../context/IsChange';
 import { UserInfo } from '../context/UserInfo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AlreadyUser from '../components/AlreadyUser';
 import NotFoundPage from '../components/NotFoundPage';
+import { axiosControl } from '../utils/axiosControl';
+import { Cookies } from 'react-cookie';
 
 function App() {
   const [isUser, setIsUser] = useState(false)
   const [isChange, setIsChange] = useState(false)
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
+  const cookie = new Cookies()
+
+  console.log(cookie.get('token'));
+  const handleUserInfo = () => {
+    axiosControl.get('/me', { Cookie: { token: cookie.get('token') } })
+      .then((e) => {
+        setUserInfo(e?.data?.message)
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.message);
+      })
+  }
+  useEffect(() => {
+    handleUserInfo()
+  }, [isChange, isUser])
   return (
     <BrowserRouter>
       <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>

@@ -5,6 +5,7 @@ const host = 'http://localhost:5000'
 
 export const axiosControl = axios.create(
     {
-        baseURL: `${host}/auth`
+        baseURL: `${host}/auth`,
+        withCredentials: true
     }
 )
