@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import HomeLastPhotosZoom from './HomeLastPhotosZoom';
 
 
@@ -26,6 +26,7 @@ export default function HomeLastPhotos() {
                     subheader="September 14, 2016"
                 />
                 <HomeLastPhotosZoom />
+
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         This impressive paella is a perfect party dish and a fun meal to cook
@@ -34,8 +35,10 @@ export default function HomeLastPhotos() {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <FavoriteIcon color='disabled' />
-                    <Typography component={'h3'}>55</Typography>
+                    <IconButton aria-label="add to favorites" onClick={() => console.log('LIKE')}>
+                        <FavoriteIcon color='action' />
+                    </IconButton>
+                    <Typography component={'h3'} margin={'0 5px'}>55</Typography>
                 </CardActions>
             </Card>
         </Grid>
