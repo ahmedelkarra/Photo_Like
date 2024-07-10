@@ -11,10 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { green } from '@mui/material/colors';
 import logo from '../src/assets/logo.svg'
+import PhotoAdd from './PhotoAdd';
 
 const pages = [{ title: 'Home', to: '/' }, { title: 'Login', to: '/login' }, { title: 'Register', to: '/register' }];
 
@@ -97,6 +97,7 @@ function Header() {
                                     </MenuItem>
                                 </Link>
                             ))}
+                            <PhotoAdd status={'xs'} />
                         </Menu>
                     </Box>
 
@@ -128,6 +129,7 @@ function Header() {
                                 </Button>
                             </Link>
                         ))}
+                        <PhotoAdd status={'md'} />
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
