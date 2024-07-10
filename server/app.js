@@ -11,10 +11,12 @@ const usersRouter = require('./routes/users');
 const register = require('./routes/register')
 const login = require('./routes/login')
 const me = require('./routes/me')
+const cors = require('cors')
 
 
 const app = express();
 coonectDB()
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

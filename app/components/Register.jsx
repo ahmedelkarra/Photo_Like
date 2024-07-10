@@ -9,13 +9,19 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Alert, Button, Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { axiosControl } from '../utils/axiosControl';
+import { IsChange } from '../context/IsChange';
+import { Cookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+    const { isChange, setIsChange } = React.useContext(IsChange)
     const [valueInputs, setValueInputs] = React.useState({ fName: '', lName: '', email: '', pass: '', confirmPass: '' })
     const [successMessage, setSuccessMessage] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState('')
     const [showPassword, setShowPassword] = React.useState(false);
     const [showconfirmPass, setShowconfirmPass] = React.useState(false);
+    const cookie = new Cookies()
+    const navigate = useNavigate()
 
     const handleClickShowconfirmPass = () => setShowconfirmPass((show) => !show);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -27,13 +33,21 @@ export default function Register() {
         e.preventDefault()
         axiosControl.post('/register', valueInputs)
             .then((e) => {
-                setSuccessMessage(e.data.message)
+                setErrorMessage('')
+                cookie.set('token', e?.data?.token)
+                setSuccessMessage(e?.data?.message)
+                setIsChange(true)
+                setTimeout(() => {
+                    setSuccessMessage('')
+                    navigate('/')
+                }, 3000)
             })
             .catch((err) => {
-                setErrorMessage('err')
-                console.log(err);
+                setErrorMessage(err?.response?.data?.message)
+                setTimeout(() => {
+                    setErrorMessage('')
+                }, 3000)
             })
-        console.log(valueInputs);
     }
     return (
         <Typography component={'form'} onSubmit={(e) => handleSubmit(e)}>
