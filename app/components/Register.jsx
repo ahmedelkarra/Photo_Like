@@ -9,12 +9,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Alert, Button, Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { axiosControl } from '../utils/axiosControl';
-import { IsChange } from '../context/IsChange';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie'
+import { UserInfo } from '../context/UserInfo';
+import { IsUser } from '../context/IsUser';
 
 export default function Register() {
-    const { isChange, setIsChange } = React.useContext(IsChange)
+    const { userInfo, setUserInfo } = React.useContext(UserInfo)
+    const { isUser, setIsUser } = React.useContext(IsUser)
     const [valueInputs, setValueInputs] = React.useState({ fName: '', lName: '', email: '', pass: '', confirmPass: '' })
     const [successMessage, setSuccessMessage] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState('')
@@ -29,25 +31,25 @@ export default function Register() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        axiosControl.post('/register', valueInputs)
-            .then((e) => {
+        try {
+            const data = await axiosControl.post('/register', valueInputs)
+            setErrorMessage('')
+            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true })
+            setSuccessMessage(data?.data?.message)
+            setUserInfo(data?.data?.data)
+            setTimeout(() => {
+                setSuccessMessage('')
+                navigate('/')
+                setIsUser(true)
+            }, 3000)
+        } catch (error) {
+            setErrorMessage(error?.response?.data?.message)
+            setTimeout(() => {
                 setErrorMessage('')
-                setCookie('token', e?.data?.token, { path: '/', sameSite: 'none', secure: true })
-                setSuccessMessage(e?.data?.message)
-                setTimeout(() => {
-                    setIsChange(true)
-                    setSuccessMessage('')
-                    navigate('/')
-                }, 3000)
-            })
-            .catch((err) => {
-                setErrorMessage(err?.response?.data?.message)
-                setTimeout(() => {
-                    setErrorMessage('')
-                }, 3000)
-            })
+            }, 3000)
+        }
     }
     return (
         <Typography component={'form'} onSubmit={(e) => handleSubmit(e)}>

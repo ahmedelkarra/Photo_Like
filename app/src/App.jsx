@@ -29,9 +29,11 @@ function App() {
       setUserInfo(data.data.message)
       setIsUser(true)
     } catch (error) {
-      console.log(error);
+      setIsUser(false)
+      console.log(error?.response?.data?.message);
     }
   }
+  console.log(userInfo);
 
   useEffect(() => {
     handleUserInfo()
