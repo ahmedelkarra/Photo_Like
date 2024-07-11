@@ -1,4 +1,4 @@
-const { tokenSign } = require('../middleware/token')
+const { tokenSign, tokenVerify } = require('../middleware/token')
 const UserSchema = require('../models/userSchema')
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
@@ -13,8 +13,9 @@ router.post('/login', async (req, res) => {
                 const checkPass = bcrypt.compareSync(pass, user.pass)
                 user.pass = undefined
                 const token = tokenSign({ user })
+                const data = tokenVerify(token)
                 if (checkPass) {
-                    res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token })
+                    res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token, data: data.user })
                 } else {
                     res.status(404).json({ message: 'Wrong email or password' })
                 }

@@ -16,13 +16,17 @@ import { green } from '@mui/material/colors';
 import logo from '../src/assets/logo.svg'
 import PhotoAdd from './PhotoAdd';
 import { IsUser } from '../context/IsUser';
+import { Cookies } from 'react-cookie';
+import { UserInfo } from '../context/UserInfo';
 
 const pages = [{ title: 'Home', to: '/' }, { title: 'Login', to: '/login' }, { title: 'Register', to: '/register' }];
 
 function Header() {
+    const { userInfo, setUserInfo } = React.useContext(UserInfo)
     const { isUser, setIsUser } = React.useContext(IsUser)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const cookie = new Cookies()
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -39,8 +43,10 @@ function Header() {
         setAnchorElUser(null);
     };
     const handleClick = () => {
+        cookie.remove('token')
         handleCloseUserMenu()
-        console.log('from header handleClick');
+        setUserInfo({ _id: '', fName: '', lName: '', email: '' })
+        setIsUser(false)
     }
     return (
         <AppBar position="static" color='success'>

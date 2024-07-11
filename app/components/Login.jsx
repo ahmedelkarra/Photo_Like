@@ -8,21 +8,47 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Alert, Button, Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie'
+import { axiosControl } from '../utils/axiosControl';
+import { UserInfo } from '../context/UserInfo';
+import { IsUser } from '../context/IsUser';
+
 
 export default function InputAdornments() {
     const [valueInputs, setValueInputs] = React.useState({ email: '', pass: '' })
+    const { userInfo, setUserInfo } = React.useContext(UserInfo)
+    const { isUser, setIsUser } = React.useContext(IsUser)
     const [successMessage, setSuccessMessage] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState('')
     const [showPassword, setShowPassword] = React.useState(false);
+    const [cookies, setCookie] = useCookies(['token']);
+    const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(valueInputs);
+        try {
+            const data = await axiosControl.post('/login', valueInputs)
+            setErrorMessage('')
+            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true })
+            setSuccessMessage(data?.data?.message)
+            setUserInfo(data?.data?.data)
+            setTimeout(() => {
+                setSuccessMessage('')
+                navigate('/')
+                setIsUser(true)
+            }, 3000)
+        } catch (error) {
+            setErrorMessage(error?.response?.data?.message)
+            setTimeout(() => {
+                setErrorMessage('')
+            }, 3000)
+        }
     }
     return (
         <Typography component={'form'} onSubmit={(e) => handleSubmit(e)}>

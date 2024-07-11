@@ -33,12 +33,15 @@ function App() {
       console.log(error?.response?.data?.message);
     }
   }
-  console.log(userInfo);
 
   useEffect(() => {
     handleUserInfo()
     setIsChange(false)
-  }, [isChange, isUser])
+    console.log('Done Refresh');
+    console.log({ isUser: isUser });
+    console.log({ isChange: isChange });
+    console.log({ userInfo: userInfo });
+  }, [isChange])
   return (
     <BrowserRouter>
       <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
