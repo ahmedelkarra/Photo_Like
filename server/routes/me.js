@@ -51,7 +51,11 @@ router.put('/me', async (req, res) => {
                 res.status(404).json({ message: 'Wrong email or password' })
             }
         } catch (error) {
-            res.status(404).json({ message: 'Invalid token' })
+            if (error?.errorResponse?.errmsg?.includes('duplicate')) {
+                res.status(403).json({ message: 'Email is already used' })
+            } else {
+                res.status(404).json({ message: 'Invalid token' })
+            }
         }
     } else {
         res.status(400).json({ message: 'Please check your inputs' })
