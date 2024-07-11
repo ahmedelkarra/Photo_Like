@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 
 router.get('/me', async (req, res) => {
     const token = req.cookies.token
-    const data = tokenVerify(token).user
+    const data = tokenVerify(token)
     console.log(data);
     if (data) {
         try {
@@ -26,7 +26,7 @@ router.get('/me', async (req, res) => {
 router.put('/me', async (req, res) => {
     const { fName, lName, email, pass, newPass, confirmNewPass } = req.body
     const token = req.cookies.token
-    const data = tokenVerify(token).user
+    const data = tokenVerify(token)
     if (fName && lName && email && pass) {
         try {
             const user = await UserSchema.findById(data._id).select(['_id', 'fName', 'lName', 'email', 'pass'])

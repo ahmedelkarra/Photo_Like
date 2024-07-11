@@ -12,10 +12,10 @@ router.post('/login', async (req, res) => {
             if (user) {
                 const checkPass = bcrypt.compareSync(pass, user.pass)
                 user.pass = undefined
-                const token = tokenSign({ user })
+                const token = tokenSign({ _id: user._id, fName: user.fName, lName: user.lName, email: user.email })
                 const data = tokenVerify(token)
                 if (checkPass) {
-                    res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token, data: data.user })
+                    res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token, data: data })
                 } else {
                     res.status(404).json({ message: 'Wrong email or password' })
                 }
