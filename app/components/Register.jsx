@@ -10,8 +10,8 @@ import { Alert, Button, Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { axiosControl } from '../utils/axiosControl';
 import { IsChange } from '../context/IsChange';
-import { Cookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie'
 
 export default function Register() {
     const { isChange, setIsChange } = React.useContext(IsChange)
@@ -20,8 +20,8 @@ export default function Register() {
     const [errorMessage, setErrorMessage] = React.useState('')
     const [showPassword, setShowPassword] = React.useState(false);
     const [showconfirmPass, setShowconfirmPass] = React.useState(false);
-    const cookie = new Cookies()
     const navigate = useNavigate()
+    const [cookies, setCookie] = useCookies(['token']);
 
     const handleClickShowconfirmPass = () => setShowconfirmPass((show) => !show);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -34,10 +34,10 @@ export default function Register() {
         axiosControl.post('/register', valueInputs)
             .then((e) => {
                 setErrorMessage('')
-                cookie.set('token', e?.data?.token)
+                setCookie('token', e?.data?.token, { path: '/', sameSite: 'none', secure: true })
                 setSuccessMessage(e?.data?.message)
-                setIsChange(true)
                 setTimeout(() => {
+                    setIsChange(true)
                     setSuccessMessage('')
                     navigate('/')
                 }, 3000)

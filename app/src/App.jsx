@@ -23,21 +23,19 @@ function App() {
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
   const cookie = new Cookies()
 
-  const handleUserInfo = () => {
-    axiosControl.get('/me', { Cookie: { token: cookie.get('token') } })
-      .then((e) => {
-        if (e?.data?.message) {
-          setUserInfo(e?.data?.message)
-          setIsUser(true)
-        }
-      })
-      .catch((err) => {
-        console.log(err?.response?.data?.message);
-      })
+  const handleUserInfo = async () => {
+    try {
+      const data = await axiosControl.get('/me', { Cookie: { token: cookie.get('token') } })
+      setUserInfo(data.data.message)
+      setIsUser(true)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
     handleUserInfo()
+    setIsChange(false)
   }, [isChange, isUser])
   return (
     <BrowserRouter>
