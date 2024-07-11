@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 
 router.get('/me', async (req, res) => {
     const token = req.cookies.token
-    const data = tokenVerify(token)
+    const data = tokenVerify(token).user
     console.log(data);
     if (data) {
         try {
