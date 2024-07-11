@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
             const token = tokenSign({ _id: user._id, fName: user.fName, lName: user.lName, email: user.email })
             const data = tokenVerify(token)
             if (user) {
-                res.status(201).json({ message: 'User has been created', token: token, data: data })
+                res.status(201).json({ message: 'User has been created', token: token, data: data.user })
             } else {
                 res.status(403).json({ message: 'Email is already used' })
             }
