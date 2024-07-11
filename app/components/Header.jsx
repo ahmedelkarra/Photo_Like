@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { green } from '@mui/material/colors';
 import logo from '../src/assets/logo.svg'
 import PhotoAdd from './PhotoAdd';
@@ -26,6 +26,7 @@ function Header() {
     const { isUser, setIsUser } = React.useContext(IsUser)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const navigate = useNavigate()
     const cookie = new Cookies()
 
     const handleOpenNavMenu = (event) => {
@@ -47,6 +48,7 @@ function Header() {
         handleCloseUserMenu()
         setUserInfo({ _id: '', fName: '', lName: '', email: '' })
         setIsUser(false)
+        navigate('/')
     }
     return (
         <AppBar position="static" color='success'>

@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { Grid, TextField, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { UserInfo } from '../context/UserInfo';
 
 function UserShow() {
     const [valueInputs, setValueInputs] = React.useState({ fName: '', lName: '', email: '' })
+    const { userInfo, setUserInfo } = React.useContext(UserInfo)
+
+    React.useEffect(() => {
+        setValueInputs(userInfo)
+    }, [userInfo])
     return (
         <Typography component={'form'} onSubmit={(e) => handleSubmit(e)} margin={'10px 0'}>
             <Grid container bgcolor={green['400']} width={{ xs: '95%', md: '60%' }} minHeight={{ xs: '70dvh', md: '40dvh' }} margin={'auto'} justifyContent={'center'} spacing={'3px'} padding={1} borderRadius={'5px'}>
