@@ -31,11 +31,13 @@ export default function InputAdornments() {
         event.preventDefault();
     };
     const handleSubmit = async (e) => {
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 1);
         e.preventDefault()
         try {
             const data = await axiosControl.post('/login', valueInputs)
             setErrorMessage('')
-            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true })
+            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true, expires: expires })
             setSuccessMessage(data?.data?.message)
             setUserInfo(data?.data?.data)
             setTimeout(() => {

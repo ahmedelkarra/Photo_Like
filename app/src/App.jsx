@@ -41,7 +41,7 @@ function App() {
     console.log({ isUser: isUser });
     console.log({ isChange: isChange });
     console.log({ userInfo: userInfo });
-  }, [isChange, isUser])
+  }, [isChange])
   return (
     <BrowserRouter>
       <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
