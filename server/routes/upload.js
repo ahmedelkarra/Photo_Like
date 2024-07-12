@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const multer = require('multer')
+const isUser = require('../middleware/isUser')
 
 const storage = multer.diskStorage(
     {
@@ -27,7 +28,7 @@ const upload = multer({
 }).single('image')
 
 
-router.post('/upload', function (req, res) {
+router.post('/upload', isUser, function (req, res) {
     upload(req, res, (err) => {
         if (err instanceof multer.MulterError) {
             res.status(400).json({ message: err.message })
