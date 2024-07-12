@@ -11,6 +11,10 @@ const usersRouter = require('./routes/users');
 const register = require('./routes/register')
 const login = require('./routes/login')
 const me = require('./routes/me')
+const photo = require('./routes/photo')
+const upload = require('./routes/upload')
+const like = require('./routes/like')
+const control = require('./routes/control')
 const cors = require('cors')
 
 
@@ -33,6 +37,10 @@ app.use('/users', usersRouter);
 app.use('/auth/', register)
 app.use('/auth/', login)
 app.use('/auth/', me)
+app.use('/photo/', photo)
+app.use('/photo/', upload)
+app.use('/photo/', like)
+app.use('/photo/', control)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
