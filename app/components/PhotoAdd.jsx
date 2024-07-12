@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Alert, MenuItem, TextField } from '@mui/material';
 import { green } from '@mui/material/colors';
+import { axiosUpload } from '../utils/axiosUpload';
 
 const style = {
     position: 'absolute',
@@ -28,6 +29,25 @@ export default function PhotoAdd({ status }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        const formData = new FormData()
+        formData.append('title', valueInput.title)
+        formData.append('body', valueInput.body)
+        formData.append('image', valueInput.image)
+        console.log(formData);
+        axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then((e) => {
+                setErrorMessage('')
+                setSuccessMessage(e?.data?.message)
+                setTimeout(() => {
+                    setSuccessMessage('')
+                }, 3000)
+            })
+            .catch((err) => {
+                setErrorMessage(e?.response?.data?.message)
+                setTimeout(() => {
+                    setErrorMessage('')
+                }, 3000)
+            })
         console.log(valueInput)
     }
     return (
@@ -51,7 +71,7 @@ export default function PhotoAdd({ status }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography component={'form'} onSubmit={(e) => handleSubmit(e)}>
+                    <Typography component={'form'} encType={'multipart/form-data'} onSubmit={(e) => handleSubmit(e)}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             Upload Photo
                         </Typography>
@@ -59,7 +79,7 @@ export default function PhotoAdd({ status }) {
                         {errorMessage && <Alert severity="error" sx={{ width: '100%', margin: '10px auto' }}>{errorMessage}</Alert>}
                         <TextField variant='filled' fullWidth label='Title' required sx={{ margin: '2px 0' }} onChange={(e) => { setValueInput({ ...valueInput, title: e.target.value }) }} />
                         <TextField multiline variant='filled' rows={4} label='Body' fullWidth required sx={{ margin: '2px 0' }} onChange={(e) => { setValueInput({ ...valueInput, body: e.target.value }) }} />
-                        <TextField type='file' variant='outlined' color='primary' inputProps={{ accept: "image/*" }} fullWidth required sx={{ margin: '2px 0' }} onChange={(e) => { setValueInput({ ...valueInput, image: e.target.value }) }} />
+                        <TextField type='file' variant='outlined' color='primary' inputProps={{ accept: "image/*" }} fullWidth required sx={{ margin: '2px 0' }} onChange={(e) => { setValueInput({ ...valueInput, image: e.target.files[0] }) }} />
                         <Typography sx={{ mt: 2 }} textAlign={'center'}>
                             <Button color='success' variant='contained' sx={{ width: '40%', margin: '0 5px' }} type='submit'>Upload</Button>
                             <Button color='error' variant='contained' sx={{ width: '40%', margin: '0 5px' }} onClick={handleClose}>Cancel</Button>
