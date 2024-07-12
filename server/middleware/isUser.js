@@ -8,8 +8,9 @@ router.use(async (req, res, next) => {
     const data = tokenVerify(token)
     if (data) {
         try {
-            const user = await UserSchema.findById(data._id)
+            const user = await UserSchema.findById(data._id).select(['_id', 'fName', 'lName', 'email'])
             if (user) {
+                req.userInfo = user
                 next()
             } else {
                 res.status(404).json({ message: 'Wrong email or password' })

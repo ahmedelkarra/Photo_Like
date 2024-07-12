@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const multer = require('multer')
 const isUser = require('../middleware/isUser')
+const PhotoSchema = require('../models/photoSchema')
 
 const storage = multer.diskStorage(
     {
@@ -28,16 +29,30 @@ const upload = multer({
 }).single('image')
 
 
-router.post('/upload', isUser, function (req, res) {
-    upload(req, res, (err) => {
-        if (err instanceof multer.MulterError) {
-            res.status(400).json({ message: err.message })
-        } else if (err) {
-            res.status(403).json({ message: err.message })
-        } else {
-            res.status(201).json({ message: 'Photo has been uploaded' })
-        }
-    })
+router.post('/upload', isUser, (req, res) => {
+    const { _id } = req.userInfo
+    if (_id) {
+        upload(req, res, async (err) => {
+            const title = req.body.title
+            const body = req.body.body
+            if (err instanceof multer.MulterError) {
+                res.status(400).json({ message: err.message })
+            } else if (err) {
+                res.status(403).json({ message: err.message })
+            } else {
+                try {
+                    const url = req.file.filename
+                    await PhotoSchema.create({ title: title, body: body, author: _id, url: url })
+                    res.status(201).json({ message: 'Photo has been uploaded' })
+                } catch (error) {
+                    console.log(error);
+                    res.status(400).json({ message: 'Something went wrong' })
+                }
+            }
+        })
+    } else {
+        res.status(400).json({ message: 'Please check your inputs' })
+    }
 });
 
 module.exports = router;
