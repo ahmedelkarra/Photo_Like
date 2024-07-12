@@ -2,6 +2,8 @@ const router = require('express').Router()
 const multer = require('multer')
 const isUser = require('../middleware/isUser')
 const PhotoSchema = require('../models/photoSchema')
+const fs = require('fs')
+const path = require('path')
 
 const storage = multer.diskStorage(
     {
@@ -40,12 +42,12 @@ router.post('/upload', isUser, (req, res) => {
             } else if (err) {
                 res.status(403).json({ message: err.message })
             } else {
+                const url = req.file.filename
                 try {
-                    const url = req.file.filename
                     await PhotoSchema.create({ title: title, body: body, author: _id, url: url })
                     res.status(201).json({ message: 'Photo has been uploaded' })
                 } catch (error) {
-                    console.log(error);
+                    fs.unlinkSync(path.join(__dirname, `../upload/${url}`))
                     res.status(400).json({ message: 'Something went wrong' })
                 }
             }

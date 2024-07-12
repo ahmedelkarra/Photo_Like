@@ -43,7 +43,7 @@ export default function PhotoAdd({ status }) {
                 }, 3000)
             })
             .catch((err) => {
-                setErrorMessage(e?.response?.data?.message)
+                setErrorMessage(err?.response?.data?.message)
                 setTimeout(() => {
                     setErrorMessage('')
                 }, 3000)
