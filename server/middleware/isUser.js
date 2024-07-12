@@ -1,5 +1,5 @@
 const UserSchema = require('../models/userSchema')
-const { tokenVerify } = require('./token')
+const { tokenVerify } = require('../helper/token')
 const router = require('express').Router()
 
 

@@ -1,4 +1,4 @@
-const { tokenSign, tokenVerify } = require('../middleware/token')
+const { tokenSign, tokenVerify } = require('../helper/token')
 const UserSchema = require('../models/userSchema')
 const router = require('express').Router()
 const bcrypt = require('bcrypt')

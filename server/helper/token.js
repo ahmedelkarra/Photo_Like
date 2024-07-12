@@ -5,7 +5,7 @@ require('dotenv').config()
 const tokenSign = (payload) => {
     try {
         const secret = process.env.SECRET_TOKEN
-        const token = jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: '1h' })
+        const token = jwt.sign(payload, secret, { algorithm: 'HS256', expiresIn: '1d' })
         return token
     } catch (error) {
         return false
