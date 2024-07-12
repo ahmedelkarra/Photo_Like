@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
     {
-        fName: { type: String, required: true },
-        lName: { type: String, required: true },
-        email: { type: String, required: true, unique: true },
+        fName: { type: String, required: true, maxlength: 20 },
+        lName: { type: String, required: true, maxlength: 20 },
+        email: { type: String, required: true, unique: true, maxlength: 30 },
         pass: { type: String, required: true },
     }, { timestamps: true }
 )
