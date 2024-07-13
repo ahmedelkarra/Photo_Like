@@ -26,7 +26,7 @@ function PhotoEachEle({ photoInfo }) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <PhotoEdit />
+                    <PhotoEdit photoInfo={photoInfo} />
                     <Button><DeleteForeverIcon color='error' sx={{ width: '35px', height: '35px' }} /></Button>
                 </CardActions>
             </Card>

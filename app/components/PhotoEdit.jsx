@@ -8,16 +8,18 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { Alert, TextField, Typography } from '@mui/material';
 import { axiosUpload } from '../utils/axiosUpload';
+import { IsChange } from '../context/IsChange';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
+export default function AlertDialogSlide({ photoInfo }) {
     const [valueInput, setValueInput] = React.useState({ title: '', body: '', id: '' })
     const [successMessage, setSuccessMessage] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState('')
     const [open, setOpen] = React.useState(false);
+    const { isChange, setIsChange } = React.useContext(IsChange)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -25,16 +27,19 @@ export default function AlertDialogSlide() {
 
     const handleClose = () => {
         setOpen(false);
+        setValueInput({ ...valueInput, title: photoInfo?.title, body: photoInfo?.body, id: photoInfo?._id })
     };
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axiosUpload.post(`/control/${valueInput}`, valueInput)
+        axiosUpload.put(`/control/${valueInput?.id}`, valueInput)
             .then((e) => {
                 setErrorMessage('')
                 setSuccessMessage(e?.data?.message)
+                setIsChange(true)
                 setTimeout(() => {
                     setSuccessMessage('')
+                    handleClose()
                 }, 3000)
             })
             .catch((err) => {
@@ -43,8 +48,11 @@ export default function AlertDialogSlide() {
                     setErrorMessage('')
                 }, 3000)
             })
-        console.log(valueInput)
     }
+
+    React.useEffect(() => {
+        setValueInput({ ...valueInput, title: photoInfo?.title, body: photoInfo?.body, id: photoInfo?._id })
+    }, [photoInfo])
     return (
         <React.Fragment>
             <Button variant="outlined" color='warning' onClick={handleClickOpen} sx={{ width: '100%' }}>
@@ -64,8 +72,8 @@ export default function AlertDialogSlide() {
                             {successMessage && <Alert severity="success" sx={{ width: '100%', margin: 'auto' }}>{successMessage}</Alert>}
                             {errorMessage && <Alert severity="error" sx={{ width: '100%', margin: 'auto' }}>{errorMessage}</Alert>}
                         </Typography>
-                        <TextField variant='filled' fullWidth label='Title' required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 20 }} onChange={(e) => { setValueInput({ ...valueInput, title: e.target.value }) }} />
-                        <TextField multiline variant='filled' rows={4} label='Body' fullWidth required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 50 }} onChange={(e) => { setValueInput({ ...valueInput, body: e.target.value }) }} />
+                        <TextField variant='filled' fullWidth label='Title' required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 20 }} onChange={(e) => { setValueInput({ ...valueInput, title: e.target.value }) }} value={valueInput?.title} />
+                        <TextField multiline variant='filled' rows={4} label='Body' fullWidth required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 50 }} onChange={(e) => { setValueInput({ ...valueInput, body: e.target.value }) }} value={valueInput?.body} />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
