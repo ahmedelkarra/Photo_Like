@@ -23,7 +23,7 @@ router.delete('/control/:id', isUser, async function (req, res) {
     const { _id } = req.userInfo
     try {
         const photoInfo = await PhotoSchema.findByIdAndDelete({ _id: idParam, author: _id })
-        fs.unlinkSync(path.join(__dirname, `../upload/${photoInfo.url}`))
+        fs.unlinkSync(path.join(__dirname, `../upload/${photoInfo.imageName}`))
         res.status(200).json({ message: 'Photo has been deleted' })
     } catch (error) {
         res.status(404).json({ message: 'Photo not found' })

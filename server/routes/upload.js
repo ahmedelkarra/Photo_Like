@@ -32,6 +32,7 @@ const upload = multer({
 
 
 router.post('/upload', isUser, (req, res) => {
+    const host = `${req.protocol}://${req.get('host')}`
     const { _id } = req.userInfo
     if (_id) {
         upload(req, res, async (err) => {
@@ -42,12 +43,13 @@ router.post('/upload', isUser, (req, res) => {
             } else if (err) {
                 res.status(403).json({ message: err.message })
             } else {
-                const url = req.file.filename
+                const imageName = req.file.filename
+                console.log(host);
                 try {
-                    await PhotoSchema.create({ title: title, body: body, author: _id, url: url })
+                    await PhotoSchema.create({ title: title, body: body, author: _id, url: `${host}/image/${imageName}`, imageName: imageName })
                     res.status(201).json({ message: 'Photo has been uploaded' })
                 } catch (error) {
-                    fs.unlinkSync(path.join(__dirname, `../upload/${url}`))
+                    fs.unlinkSync(path.join(__dirname, `../upload/${imageName}`))
                     res.status(400).json({ message: 'Something went wrong' })
                 }
             }
