@@ -8,22 +8,21 @@ import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PhotoEdit from './PhotoEdit';
 
-function PhotoEachEle() {
+function PhotoEachEle({ photoInfo }) {
     return (
         <Grid item xs={12} sm={6} xl={4}>
             <Card sx={{ maxWidth: '100%' }}>
                 <CardMedia
                     sx={{ height: 140 }}
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="green iguana"
+                    image={photoInfo?.url}
+                    title={photoInfo?.title}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+                        {photoInfo?.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {photoInfo?.body}
                     </Typography>
                 </CardContent>
                 <CardActions>
