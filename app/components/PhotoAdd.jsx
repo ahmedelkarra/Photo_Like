@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { Alert, MenuItem, TextField } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { axiosUpload } from '../utils/axiosUpload';
+import { IsChange } from '../context/IsChange';
 
 const style = {
     position: 'absolute',
@@ -21,6 +22,7 @@ const style = {
 
 export default function PhotoAdd({ status }) {
     const [valueInput, setValueInput] = React.useState({ title: '', body: '', image: '' })
+    const { isChange, setIsChange } = React.useContext(IsChange)
     const [successMessage, setSuccessMessage] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState('')
     const [open, setOpen] = React.useState(false);
@@ -38,8 +40,10 @@ export default function PhotoAdd({ status }) {
             .then((e) => {
                 setErrorMessage('')
                 setSuccessMessage(e?.data?.message)
+                setIsChange(true)
                 setTimeout(() => {
                     setSuccessMessage('')
+                    handleClose()
                 }, 3000)
             })
             .catch((err) => {
