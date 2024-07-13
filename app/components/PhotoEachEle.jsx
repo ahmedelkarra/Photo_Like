@@ -30,11 +30,7 @@ function PhotoEachEle({ photoInfo }) {
     return (
         <Grid item xs={12} sm={6} xl={4}>
             <Card sx={{ maxWidth: '100%' }}>
-                <CardMedia
-                    sx={{ height: 140 }}
-                    image={photoInfo?.url}
-                    title={photoInfo?.title}
-                />
+                <Typography component={'img'} src={photoInfo?.url} alt={photoInfo?.title} sx={{ height: '300px', width: '100%', objectFit: 'fill' }} />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {photoInfo?.title}

@@ -14,7 +14,7 @@ export default function HomeHeroSection({
                 <Box
                     sx={{
                         flex: 1,
-                        height: "30vh",
+                        minHeight: "20vh",
                         display: "flex",
                         alignItems: "center",
                         flexDirection: "column",
@@ -37,6 +37,7 @@ export default function HomeHeroSection({
                             fontSize: "lg",
                             color: "gray.500",
                             maxWidth: "54ch",
+                            textWrap: 'wrap',
                         }}
                     >
                         {subtitle}
