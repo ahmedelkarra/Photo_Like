@@ -15,6 +15,7 @@ const photo = require('./routes/photo')
 const upload = require('./routes/upload')
 const like = require('./routes/like')
 const control = require('./routes/control')
+const photoAll = require('./routes/photoAll')
 const cors = require('cors')
 
 
@@ -42,6 +43,7 @@ app.use('/photo/', photo)
 app.use('/photo/', upload)
 app.use('/photo/', like)
 app.use('/photo/', control)
+app.use('/photo/', photoAll)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
