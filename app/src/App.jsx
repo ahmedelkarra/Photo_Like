@@ -62,7 +62,7 @@ function App() {
     handlePhotoInfo()
     handlePhotoInfoAll()
     setIsChange(false)
-  }, [isChange])
+  }, [isChange, isUser])
   return (
     <BrowserRouter>
       <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
