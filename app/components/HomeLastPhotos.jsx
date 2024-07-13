@@ -11,17 +11,34 @@ import { Grid, IconButton } from '@mui/material';
 import HomeLastPhotosZoom from './HomeLastPhotosZoom';
 import { IsUser } from '../context/IsUser';
 import { useNavigate } from 'react-router-dom';
+import { IsChange } from '../context/IsChange';
+import { UserInfo } from '../context/UserInfo';
+import { LikeInfo } from '../context/LikeInfo';
+import { axiosUpload } from '../utils/axiosUpload';
 
 
 export default function HomeLastPhotos({ photoInfo }) {
     const date = new Date(photoInfo?.createdAt)
-    const { isUser, setIsUser } = React.useContext(IsUser)
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const navigate = useNavigate()
+    const { isUser, setIsUser } = React.useContext(IsUser)
+    const { userInfo, setUserInfo } = React.useContext(UserInfo)
+    const { likeInfo, setLikeInfo } = React.useContext(LikeInfo)
+    const { isChange, setIsChange } = React.useContext(IsChange)
+
+    const likedPhoto = likeInfo.filter((ele) => ele?.photoId == photoInfo?._id)
+    const isClientLiked = likeInfo.filter((ele) => ele?.author == userInfo?._id && ele?.photoId == photoInfo?._id)
 
     const handleClick = () => {
         if (isUser) {
-            console.log('like');
+            axiosUpload.post(`like/${photoInfo?._id}`)
+                .then((e) => {
+                    console.log(e.data.message)
+                    setIsChange(true)
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         } else {
             navigate('/login')
         }
@@ -51,9 +68,13 @@ export default function HomeLastPhotos({ photoInfo }) {
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton aria-label="add to favorites" onClick={handleClick}>
-                        <FavoriteIcon color='action' />
+                        {isClientLiked.length != 0 ?
+                            <FavoriteIcon color='error' />
+                            :
+                            <FavoriteIcon color='action' />
+                        }
                     </IconButton>
-                    <Typography component={'h3'} margin={'0 1px'}>55</Typography>
+                    <Typography component={'h3'} margin={'0 1px'}>{likedPhoto?.length}</Typography>
                 </CardActions>
             </Card>
         </Grid>
