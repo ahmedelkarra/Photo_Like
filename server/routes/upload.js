@@ -44,7 +44,6 @@ router.post('/upload', isUser, (req, res) => {
                 res.status(403).json({ message: err.message })
             } else {
                 const imageName = req.file.filename
-                console.log(host);
                 try {
                     await PhotoSchema.create({ title: title, body: body, author: _id, fName: fName, lName: lName, url: `${host}/image/${imageName}`, imageName: imageName })
                     res.status(201).json({ message: 'Photo has been uploaded' })

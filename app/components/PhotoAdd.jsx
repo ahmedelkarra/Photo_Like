@@ -35,7 +35,6 @@ export default function PhotoAdd({ status }) {
         formData.append('title', valueInput.title)
         formData.append('body', valueInput.body)
         formData.append('image', valueInput.image)
-        console.log(formData);
         axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
             .then((e) => {
                 setErrorMessage('')
@@ -52,7 +51,6 @@ export default function PhotoAdd({ status }) {
                     setErrorMessage('')
                 }, 3000)
             })
-        console.log(valueInput)
     }
     return (
         <Typography component={'div'}>
