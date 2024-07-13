@@ -12,11 +12,20 @@ function UserPhoto() {
             <Grid item xs={12}>
                 <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '30%' }} padding={1}>Edit Photos</Typography>
             </Grid>
-            {photoInfo?.map((ele) => {
-                return (
-                    <PhotoEachEle key={ele?._id} photoInfo={ele} />
-                )
-            })}
+
+            {photoInfo.length != 0 ?
+                <Grid item xs={12}>
+                    {photoInfo?.map((ele) => {
+                        return (
+                            <PhotoEachEle key={ele?._id} photoInfo={ele} />
+                        )
+                    })}
+                </Grid>
+                :
+                <Grid item xs={12}>
+                    <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '70%' }} padding={1}>You don not have photos to show</Typography>
+                </Grid>
+            }
         </Grid>
     )
 }

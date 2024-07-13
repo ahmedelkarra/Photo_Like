@@ -14,11 +14,19 @@ function Home() {
                 <Grid item xs={12}>
                     <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '30%' }} padding={1}>Photos</Typography>
                 </Grid>
-                {photoInfoAll?.map((ele) => {
-                    return (
-                        <HomeLastPhotos key={ele?._id} photoInfo={ele} />
-                    )
-                })}
+                {photoInfoAll.length != 0 ?
+                    <>
+                        {photoInfoAll?.map((ele) => {
+                            return (
+                                <HomeLastPhotos key={ele?._id} photoInfo={ele} />
+                            )
+                        })}
+                    </>
+                    :
+                    <Grid item xs={12} height={'40vh'}>
+                        <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '70%' }} padding={1}>There are no photos to show</Typography>
+                    </Grid>
+                }
             </Grid>
         </Typography>
     )

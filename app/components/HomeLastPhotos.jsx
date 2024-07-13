@@ -59,10 +59,10 @@ export default function HomeLastPhotos({ photoInfo }) {
                 <HomeLastPhotosZoom url={photoInfo?.url} title={photoInfo?.title} />
 
                 <CardContent>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography variant="h6" component={'h2'} color="text.secondary" sx={{ textWrap: 'balance', overflowWrap: 'break-word' }}>
                         {photoInfo?.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" component={'p'} color="text.secondary" sx={{ textWrap: 'balance', overflowWrap: 'break-word' }}>
                         {photoInfo?.body}
                     </Typography>
                 </CardContent>
