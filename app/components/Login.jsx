@@ -63,7 +63,7 @@ export default function InputAdornments() {
                     {errorMessage && <Alert severity="error" sx={{ width: { xs: '90%', md: '60%' }, margin: 'auto' }}>{errorMessage}</Alert>}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="filled-basic" label="Email" variant="filled" type='email' required fullWidth onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
+                    <TextField id="filled-basic" label="Email" variant="filled" type='email' required fullWidth inputProps={{ maxLength: 30 }} onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <FormControl sx={{ width: '100%' }} variant="filled" required>

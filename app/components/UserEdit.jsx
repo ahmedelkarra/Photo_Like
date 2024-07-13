@@ -74,13 +74,13 @@ function UserEdit() {
                     {errorMessage && <Alert severity="error" sx={{ width: { xs: '90%', md: '60%' }, margin: 'auto' }}>{errorMessage}</Alert>}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="first-name" label="First Name" variant="filled" type='text' required fullWidth value={valueInputs.fName} onChange={(e) => { setValueInputs({ ...valueInputs, fName: e.target.value }) }} />
+                    <TextField id="first-name" label="First Name" variant="filled" type='text' required fullWidth value={valueInputs.fName} inputProps={{ maxLength: 20 }} onChange={(e) => { setValueInputs({ ...valueInputs, fName: e.target.value }) }} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="last-name" label="Last Name" variant="filled" type='text' required fullWidth value={valueInputs.lName} onChange={(e) => { setValueInputs({ ...valueInputs, lName: e.target.value }) }} />
+                    <TextField id="last-name" label="Last Name" variant="filled" type='text' required fullWidth value={valueInputs.lName} inputProps={{ maxLength: 20 }} onChange={(e) => { setValueInputs({ ...valueInputs, lName: e.target.value }) }} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="email" label="Email" variant="filled" type='email' required fullWidth value={valueInputs.email} onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
+                    <TextField id="email" label="Email" variant="filled" type='email' required fullWidth value={valueInputs.email} inputProps={{ maxLength: 30 }} onChange={(e) => { setValueInputs({ ...valueInputs, email: e.target.value }) }} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField id="Your-Password" label="Your Password" variant="filled" type='password' required fullWidth onChange={(e) => { setValueInputs({ ...valueInputs, pass: e.target.value }) }} />
