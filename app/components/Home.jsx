@@ -3,10 +3,10 @@ import { green } from '@mui/material/colors'
 import React, { useContext } from 'react'
 import HomeLastPhotos from './HomeLastPhotos'
 import HomeHeroSection from './HomeHeroSection'
-import { PhotoInfo } from '../context/PhotoInfo'
+import { PhotoInfoAll } from '../context/PhotoInfoAll'
 
 function Home() {
-    const { photoInfo, setPhotoInfo } = useContext(PhotoInfo)
+    const { photoInfoAll, setPhotoInfoAll } = useContext(PhotoInfoAll)
     return (
         <Typography component={'div'} display={'flex'} flexDirection={'column'} minHeight={{ xs: '100dvh', md: '100dvh' }}>
             <HomeHeroSection />
@@ -14,7 +14,7 @@ function Home() {
                 <Grid item xs={12}>
                     <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '30%' }} padding={1}>Photos</Typography>
                 </Grid>
-                {photoInfo?.map((ele) => {
+                {photoInfoAll?.map((ele) => {
                     return (
                         <HomeLastPhotos key={ele?._id} photoInfo={ele} />
                     )

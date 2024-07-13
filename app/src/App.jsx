@@ -18,12 +18,14 @@ import { axiosControl } from '../utils/axiosControl';
 import { Cookies } from 'react-cookie';
 import { PhotoInfo } from '../context/PhotoInfo';
 import { axiosUpload } from '../utils/axiosUpload';
+import { PhotoInfoAll } from '../context/PhotoInfoAll';
 
 function App() {
   const [isUser, setIsUser] = useState(false)
   const [isChange, setIsChange] = useState(false)
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
   const [photoInfo, setPhotoInfo] = useState([])
+  const [photoInfoAll, setPhotoInfoAll] = useState([])
   const cookie = new Cookies()
 
   const handleUserInfo = async () => {
@@ -46,9 +48,19 @@ function App() {
     }
   }
 
+  const handlePhotoInfoAll = async () => {
+    try {
+      const data = await axiosUpload.get('/all')
+      setPhotoInfoAll(data.data.message)
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+
   useEffect(() => {
     handleUserInfo()
     handlePhotoInfo()
+    handlePhotoInfoAll()
     setIsChange(false)
   }, [isChange])
   return (
@@ -58,18 +70,20 @@ function App() {
           <IsChange.Provider value={{ isChange, setIsChange }}>
             <UserInfo.Provider value={{ userInfo, setUserInfo }}>
               <PhotoInfo.Provider value={{ photoInfo, setPhotoInfo }}>
-                <Header />
-                <Routes>
-                  <Route path='/' element={<Home />} />
-                  <Route path='/login' element={isUser ? <AlreadyUser /> : <Login />} />
-                  <Route path='/register' element={isUser ? <AlreadyUser /> : <Register />} />
-                  {isUser && <Route path='/me' element={<UserMe />} >
-                    <Route path='edit' element={<UserEdit />} />
-                    <Route path='photo' element={<UserPhoto />} />
-                  </Route>}
-                  <Route path='*' element={<NotFoundPage />} />
-                </Routes>
-                <Footer />
+                <PhotoInfoAll.Provider value={{ photoInfoAll, setPhotoInfoAll }}>
+                  <Header />
+                  <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/login' element={isUser ? <AlreadyUser /> : <Login />} />
+                    <Route path='/register' element={isUser ? <AlreadyUser /> : <Register />} />
+                    {isUser && <Route path='/me' element={<UserMe />} >
+                      <Route path='edit' element={<UserEdit />} />
+                      <Route path='photo' element={<UserPhoto />} />
+                    </Route>}
+                    <Route path='*' element={<NotFoundPage />} />
+                  </Routes>
+                  <Footer />
+                </PhotoInfoAll.Provider>
               </PhotoInfo.Provider>
             </UserInfo.Provider>
           </IsChange.Provider>
