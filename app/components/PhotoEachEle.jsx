@@ -7,8 +7,26 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PhotoEdit from './PhotoEdit';
+import { axiosUpload } from '../utils/axiosUpload';
+import { IsChange } from '../context/IsChange';
 
 function PhotoEachEle({ photoInfo }) {
+    const { isChange, setIsChange } = React.useContext(IsChange)
+
+    const handleDelete = (e) => {
+        e.preventDefault()
+        const clientConfirm = window.confirm(`Are you sure for delete ${photoInfo?.title}`)
+        if (clientConfirm) {
+            axiosUpload.delete(`/control/${photoInfo?._id}`)
+                .then((e) => {
+                    console.log(e?.data?.message)
+                    setIsChange(true)
+                })
+                .catch((err) => {
+                    console.log(err?.response?.data?.message)
+                })
+        }
+    }
     return (
         <Grid item xs={12} sm={6} xl={4}>
             <Card sx={{ maxWidth: '100%' }}>
@@ -27,7 +45,7 @@ function PhotoEachEle({ photoInfo }) {
                 </CardContent>
                 <CardActions>
                     <PhotoEdit photoInfo={photoInfo} />
-                    <Button><DeleteForeverIcon color='error' sx={{ width: '35px', height: '35px' }} /></Button>
+                    <Button onClick={handleDelete}><DeleteForeverIcon color='error' sx={{ width: '35px', height: '35px' }} /></Button>
                 </CardActions>
             </Card>
         </Grid>
