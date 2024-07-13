@@ -8,6 +8,8 @@ const photoSchema = new mongoose.Schema(
         imageName: { type: String, required: true },
         url: { type: String, required: true },
         author: { type: String, required: true, ref: 'User' },
+        fName: { type: String, required: true, ref: 'User' },
+        lName: { type: String, required: true, ref: 'User' },
     }, { timestamps: true }
 )
 

@@ -33,7 +33,7 @@ const upload = multer({
 
 router.post('/upload', isUser, (req, res) => {
     const host = `${req.protocol}://${req.get('host')}`
-    const { _id } = req.userInfo
+    const { _id, fName, lName } = req.userInfo
     if (_id) {
         upload(req, res, async (err) => {
             const title = req.body.title
@@ -46,7 +46,7 @@ router.post('/upload', isUser, (req, res) => {
                 const imageName = req.file.filename
                 console.log(host);
                 try {
-                    await PhotoSchema.create({ title: title, body: body, author: _id, url: `${host}/image/${imageName}`, imageName: imageName })
+                    await PhotoSchema.create({ title: title, body: body, author: _id, fName: fName, lName: lName, url: `${host}/image/${imageName}`, imageName: imageName })
                     res.status(201).json({ message: 'Photo has been uploaded' })
                 } catch (error) {
                     fs.unlinkSync(path.join(__dirname, `../upload/${imageName}`))
