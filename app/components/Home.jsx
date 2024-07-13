@@ -1,10 +1,12 @@
 import { Grid, Typography } from '@mui/material'
 import { green } from '@mui/material/colors'
-import React from 'react'
+import React, { useContext } from 'react'
 import HomeLastPhotos from './HomeLastPhotos'
 import HomeHeroSection from './HomeHeroSection'
+import { PhotoInfo } from '../context/PhotoInfo'
 
 function Home() {
+    const { photoInfo, setPhotoInfo } = useContext(PhotoInfo)
     return (
         <Typography component={'div'} display={'flex'} flexDirection={'column'} minHeight={{ xs: '100dvh', md: '100dvh' }}>
             <HomeHeroSection />
@@ -12,13 +14,11 @@ function Home() {
                 <Grid item xs={12}>
                     <Typography variant='h6' component={'h2'} margin={'auto'} textAlign={'center'} border={'1px solid white'} color={'white'} borderRadius={'5px'} width={{ md: '30%' }} padding={1}>Photos</Typography>
                 </Grid>
-                <HomeLastPhotos />
-                <HomeLastPhotos />
-                <HomeLastPhotos />
-                <HomeLastPhotos />
-                <HomeLastPhotos />
-                <HomeLastPhotos />
-                <HomeLastPhotos />
+                {photoInfo?.map((ele) => {
+                    return (
+                        <HomeLastPhotos key={ele?._id} photoInfo={ele} />
+                    )
+                })}
             </Grid>
         </Typography>
     )

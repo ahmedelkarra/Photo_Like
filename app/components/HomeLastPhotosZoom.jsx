@@ -15,9 +15,10 @@ const style = {
     boxShadow: 24,
     p: 4,
     height: '60%',
+    width: { xs: '90%', md: '50%' },
 };
 
-export default function HomeLastPhotosZoom() {
+export default function HomeLastPhotosZoom({ url, title }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -25,12 +26,12 @@ export default function HomeLastPhotosZoom() {
     return (
         <div>
             <CardMedia
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: 'pointer', objectFit: 'contain' }}
                 onClick={handleOpen}
                 component="img"
                 height="194"
-                image="/static/images/cards/paella.jpg"
-                alt="Paella dish"
+                image={url}
+                alt={title}
             />
             <Modal
                 open={open}
@@ -39,7 +40,7 @@ export default function HomeLastPhotosZoom() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography component="img" src="/static/images/cards/paella.jpg" alt="Paella dish" />
+                    <Typography component="img" src={url} alt={title} sx={{ height: '100%', width: '100%', objectFit: 'contain' }} />
                 </Box>
             </Modal>
         </div>
