@@ -27,17 +27,23 @@ function App() {
   const [photoInfo, setPhotoInfo] = useState([])
   const [photoInfoAll, setPhotoInfoAll] = useState([])
   const cookie = new Cookies()
+  const token = cookie.get('token')
 
   const handleUserInfo = async () => {
+    if (!token) {
+      setIsUser(false);
+      return;
+    }
     try {
-      const data = await axiosControl.get('/me', { Cookie: { token: cookie.get('token') } })
-      setUserInfo(data.data.message)
-      setIsUser(true)
+      const { data } = await axiosControl.get('/me', { headers: { Authorization: `${token}` } });
+      setUserInfo(data.message);
+      setIsUser(true);
     } catch (error) {
-      setIsUser(false)
+      setIsUser(false);
       console.log(error?.response?.data?.message);
     }
-  }
+  };
+
 
   const handlePhotoInfo = async () => {
     try {
@@ -58,11 +64,16 @@ function App() {
   }
 
   useEffect(() => {
-    handleUserInfo()
-    handlePhotoInfo()
-    handlePhotoInfoAll()
-    setIsChange(false)
-  }, [isChange, isUser])
+    if (token) {
+      handleUserInfo();
+      handlePhotoInfo();
+    } else {
+      setIsUser(false);
+    }
+    handlePhotoInfoAll();
+    setIsChange(false);
+  }, [isChange, isUser]);
+
   return (
     <BrowserRouter>
       <Typography component={'div'} sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100dvh', justifyContent: 'space-between' }}>
