@@ -19,6 +19,7 @@ import { Cookies } from 'react-cookie';
 import { PhotoInfo } from '../context/PhotoInfo';
 import { axiosUpload } from '../utils/axiosUpload';
 import { PhotoInfoAll } from '../context/PhotoInfoAll';
+import { LikeInfo } from '../context/LikeInfo';
 
 function App() {
   const [isUser, setIsUser] = useState(false)
@@ -26,6 +27,7 @@ function App() {
   const [userInfo, setUserInfo] = useState({ _id: '', fName: '', lName: '', email: '' })
   const [photoInfo, setPhotoInfo] = useState([])
   const [photoInfoAll, setPhotoInfoAll] = useState([])
+  const [likeInfo, setLikeInfo] = useState([])
   const cookie = new Cookies()
   const token = cookie.get('token')
 
@@ -63,6 +65,15 @@ function App() {
     }
   }
 
+  const handleLikeInfo = async () => {
+    try {
+      const data = await axiosUpload.get('/like')
+      setLikeInfo(data.data.message)
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+
   useEffect(() => {
     if (token) {
       handleUserInfo();
@@ -70,6 +81,7 @@ function App() {
     } else {
       setIsUser(false);
     }
+    handleLikeInfo()
     handlePhotoInfoAll();
     setIsChange(false);
   }, [isChange, isUser]);
@@ -82,18 +94,20 @@ function App() {
             <UserInfo.Provider value={{ userInfo, setUserInfo }}>
               <PhotoInfo.Provider value={{ photoInfo, setPhotoInfo }}>
                 <PhotoInfoAll.Provider value={{ photoInfoAll, setPhotoInfoAll }}>
-                  <Header />
-                  <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/login' element={isUser ? <AlreadyUser /> : <Login />} />
-                    <Route path='/register' element={isUser ? <AlreadyUser /> : <Register />} />
-                    {isUser && <Route path='/me' element={<UserMe />} >
-                      <Route path='edit' element={<UserEdit />} />
-                      <Route path='photo' element={<UserPhoto />} />
-                    </Route>}
-                    <Route path='*' element={<NotFoundPage />} />
-                  </Routes>
-                  <Footer />
+                  <LikeInfo.Provider value={{ likeInfo, setLikeInfo }}>
+                    <Header />
+                    <Routes>
+                      <Route path='/' element={<Home />} />
+                      <Route path='/login' element={isUser ? <AlreadyUser /> : <Login />} />
+                      <Route path='/register' element={isUser ? <AlreadyUser /> : <Register />} />
+                      {isUser && <Route path='/me' element={<UserMe />} >
+                        <Route path='edit' element={<UserEdit />} />
+                        <Route path='photo' element={<UserPhoto />} />
+                      </Route>}
+                      <Route path='*' element={<NotFoundPage />} />
+                    </Routes>
+                    <Footer />
+                  </LikeInfo.Provider>
                 </PhotoInfoAll.Provider>
               </PhotoInfo.Provider>
             </UserInfo.Provider>
