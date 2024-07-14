@@ -39,22 +39,22 @@ router.post('/upload', isUser, (req, res) => {
             const title = req.body.title
             const body = req.body.body
             if (err instanceof multer.MulterError) {
-                res.status(400).json({ message: err.message })
+                return res.status(400).json({ message: err.message })
             } else if (err) {
-                res.status(403).json({ message: err.message })
+                return res.status(403).json({ message: err.message })
             } else {
                 const imageName = req.file.filename
                 try {
                     await PhotoSchema.create({ title: title, body: body, author: _id, fName: fName, lName: lName, url: `${host}/image/${imageName}`, imageName: imageName })
-                    res.status(201).json({ message: 'Photo has been uploaded' })
+                    return res.status(201).json({ message: 'Photo has been uploaded' })
                 } catch (error) {
                     fs.unlinkSync(path.join(__dirname, `../upload/${imageName}`))
-                    res.status(400).json({ message: 'Something went wrong' })
+                    return res.status(400).json({ message: 'Something went wrong' })
                 }
             }
         })
     } else {
-        res.status(400).json({ message: 'Please check your inputs' })
+        return res.status(400).json({ message: 'Please check your inputs' })
     }
 });
 

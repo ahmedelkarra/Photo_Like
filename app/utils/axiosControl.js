@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-const host = 'http://localhost:5000'
+const host = 'http://localhost:5000/api'
 
 export const axiosControl = axios.create(
     {

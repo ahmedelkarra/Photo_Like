@@ -13,17 +13,17 @@ router.post('/register', async (req, res) => {
             const token = tokenSign({ _id: user._id, fName: user.fName, lName: user.lName, email: user.email })
             const data = tokenVerify(token)
             if (user) {
-                res.status(201).json({ message: 'User has been created', token: token, data: data })
+                return res.status(201).json({ message: 'User has been created', token: token, data: data })
             } else {
-                res.status(403).json({ message: 'Email is already used' })
+                return res.status(403).json({ message: 'Email is already used' })
             }
         } catch (error) {
-            res.status(403).json({ message: 'Email is already used' })
+            return res.status(403).json({ message: 'Email is already used' })
         }
     } else if (pass !== confirmPass) {
-        res.status(400).json({ message: 'Your password not match' })
+        return res.status(400).json({ message: 'Your password not match' })
     } else {
-        res.status(400).json({ message: 'Please check your inputs' })
+        return res.status(400).json({ message: 'Please check your inputs' })
     }
 })
 

@@ -35,15 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/image', express.static(path.join(__dirname, 'upload')))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth/', register)
-app.use('/auth/', login)
-app.use('/auth/', me)
-app.use('/photo/', photo)
-app.use('/photo/', upload)
-app.use('/photo/', like)
-app.use('/photo/', control)
-app.use('/photo/', photoAll)
+app.use('/api/users', usersRouter);
+app.use('/api/auth/', register)
+app.use('/api/auth/', login)
+app.use('/api/auth/', me)
+app.use('/api/photo/', photo)
+app.use('/api/photo/', upload)
+app.use('/api/photo/', like)
+app.use('/api/photo/', control)
+app.use('/api/photo/', photoAll)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

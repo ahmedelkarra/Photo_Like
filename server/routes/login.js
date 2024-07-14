@@ -15,18 +15,18 @@ router.post('/login', async (req, res) => {
                 const token = tokenSign({ _id: user._id, fName: user.fName, lName: user.lName, email: user.email })
                 const data = tokenVerify(token)
                 if (checkPass) {
-                    res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token, data: data })
+                    return res.status(200).json({ message: `Welcome ${user.fName} ${user.lName}`, token: token, data: data })
                 } else {
-                    res.status(404).json({ message: 'Wrong email or password' })
+                    return res.status(404).json({ message: 'Wrong email or password' })
                 }
             } else {
-                res.status(404).json({ message: 'Wrong email or password' })
+                return res.status(404).json({ message: 'Wrong email or password' })
             }
         } catch (error) {
-            res.status(400).json({ message: 'Something went wrong' })
+            return res.status(400).json({ message: 'Something went wrong' })
         }
     } else {
-        res.status(400).json({ message: 'Please check your inputs' })
+        return res.status(400).json({ message: 'Please check your inputs' })
     }
 })
 

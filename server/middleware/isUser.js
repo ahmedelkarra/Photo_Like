@@ -13,13 +13,13 @@ router.use(async (req, res, next) => {
                 req.userInfo = user
                 next()
             } else {
-                res.status(404).json({ message: 'Wrong email or password' })
+                return res.status(404).json({ message: 'Wrong email or password' })
             }
         } catch (error) {
-            res.status(400).json({ message: 'Something went wrong' })
+            return res.status(400).json({ message: 'Something went wrong' })
         }
     } else {
-        res.status(404).json({ message: 'Wrong email or password' })
+        return res.status(404).json({ message: 'Wrong email or password' })
     }
 })
 

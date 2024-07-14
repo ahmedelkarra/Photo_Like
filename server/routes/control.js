@@ -11,9 +11,9 @@ router.put('/control/:id', isUser, async function (req, res) {
     const { _id } = req.userInfo
     try {
         await PhotoSchema.findOneAndUpdate({ _id: idParam, author: _id }, { title, body })
-        res.status(200).json({ message: 'Photo has been updated' })
+        return res.status(200).json({ message: 'Photo has been updated' })
     } catch (error) {
-        res.status(404).json({ message: 'Photo not found' })
+        return res.status(404).json({ message: 'Photo not found' })
     }
 });
 
@@ -24,9 +24,9 @@ router.delete('/control/:id', isUser, async function (req, res) {
     try {
         const photoInfo = await PhotoSchema.findByIdAndDelete({ _id: idParam, author: _id })
         fs.unlinkSync(path.join(__dirname, `../upload/${photoInfo.imageName}`))
-        res.status(200).json({ message: 'Photo has been deleted' })
+        return res.status(200).json({ message: 'Photo has been deleted' })
     } catch (error) {
-        res.status(404).json({ message: 'Photo not found' })
+        return res.status(404).json({ message: 'Photo not found' })
     }
 });
 
