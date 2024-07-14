@@ -37,7 +37,7 @@ export default function InputAdornments() {
         try {
             const response = await axiosControl.post('/login', valueInputs);
             setErrorMessage('');
-            setCookie('token', response?.data?.token, { path: '/', sameSite: 'strict', secure: true, expires });
+            setCookie('token', response?.data?.token, { path: '/', sameSite: 'none', secure: true, expires });
             setSuccessMessage(response?.data?.message);
             setUserInfo(response?.data?.data);
             setTimeout(() => {

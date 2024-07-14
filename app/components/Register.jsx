@@ -38,7 +38,7 @@ export default function Register() {
         try {
             const data = await axiosControl.post('/register', valueInputs)
             setErrorMessage('')
-            setCookie('token', data?.data?.token, { path: '/', sameSite: 'strict', secure: true, expires })
+            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true, expires })
             setSuccessMessage(data?.data?.message)
             setUserInfo(data?.data?.data)
             setTimeout(() => {
