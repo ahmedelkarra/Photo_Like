@@ -16,13 +16,14 @@ function UserEdit() {
     const { userInfo, setUserInfo } = React.useContext(UserInfo)
     const { isChange, setIsChange } = React.useContext(IsChange)
     const { isUser, setIsUser } = React.useContext(IsUser)
-    const cookie = new Cookies();
     const navigate = useNavigate()
+    const cookie = new Cookies()
+    const token = cookie.get('token')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const data = await axiosControl.put('/me', valueInputs)
+            const data = await axiosControl.put('/me', valueInputs, { headers: { Authorization: token } })
             setErrorMessage('')
             setSuccessMessage(data?.data?.message)
             setTimeout(() => {
@@ -40,7 +41,7 @@ function UserEdit() {
 
     const handleDelete = async () => {
         try {
-            const data = await axiosControl.delete('/me', { data: valueInputs })
+            const data = await axiosControl.delete('/me', { data: valueInputs, headers: { Authorization: token } })
             setErrorMessage('')
             setSuccessMessage(data?.data?.message)
             setTimeout(() => {

@@ -15,6 +15,7 @@ import { IsChange } from '../context/IsChange';
 import { UserInfo } from '../context/UserInfo';
 import { LikeInfo } from '../context/LikeInfo';
 import { axiosUpload } from '../utils/axiosUpload';
+import { Cookies } from 'react-cookie';
 
 
 export default function HomeLastPhotos({ photoInfo }) {
@@ -25,13 +26,15 @@ export default function HomeLastPhotos({ photoInfo }) {
     const { userInfo, setUserInfo } = React.useContext(UserInfo)
     const { likeInfo, setLikeInfo } = React.useContext(LikeInfo)
     const { isChange, setIsChange } = React.useContext(IsChange)
+    const cookie = new Cookies()
+    const token = cookie.get('token')
 
     const likedPhoto = likeInfo.filter((ele) => ele?.photoId == photoInfo?._id)
     const isClientLiked = likeInfo.filter((ele) => ele?.author == userInfo?._id && ele?.photoId == photoInfo?._id)
 
     const handleClick = () => {
         if (isUser) {
-            axiosUpload.post(`like/${photoInfo?._id}`)
+            axiosUpload.post(`like/${photoInfo?._id}`, '', { headers: { Authorization: token } })
                 .then((e) => {
                     console.log(e.data.message)
                     setIsChange(true)

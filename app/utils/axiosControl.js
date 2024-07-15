@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-const host = 'https://photo-like-server-dcae478b8a90.herokuapp.com/api'
+const host = 'https://photo-like-server.onrender.com/api'
 
 export const axiosControl = axios.create(
     {

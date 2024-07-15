@@ -49,7 +49,7 @@ function App() {
 
   const handlePhotoInfo = async () => {
     try {
-      const data = await axiosUpload.get('/', { Cookie: { token: cookie.get('token') } })
+      const data = await axiosUpload.get('/', { headers: { Authorization: `${token}` } })
       setPhotoInfo(data.data.message)
     } catch (error) {
       console.log(error?.response?.data?.message);

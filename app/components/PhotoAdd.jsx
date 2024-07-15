@@ -7,6 +7,7 @@ import { Alert, MenuItem, TextField } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { axiosUpload } from '../utils/axiosUpload';
 import { IsChange } from '../context/IsChange';
+import { Cookies } from 'react-cookie';
 
 const style = {
     position: 'absolute',
@@ -28,6 +29,8 @@ export default function PhotoAdd({ status }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const cookie = new Cookies()
+    const token = cookie.get('token')
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -35,7 +38,7 @@ export default function PhotoAdd({ status }) {
         formData.append('title', valueInput.title)
         formData.append('body', valueInput.body)
         formData.append('image', valueInput.image)
-        axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: token } })
             .then((e) => {
                 setErrorMessage('')
                 setSuccessMessage(e?.data?.message)
