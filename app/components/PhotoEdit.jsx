@@ -9,6 +9,7 @@ import Slide from '@mui/material/Slide';
 import { Alert, TextField, Typography } from '@mui/material';
 import { axiosUpload } from '../utils/axiosUpload';
 import { IsChange } from '../context/IsChange';
+import { Cookies } from 'react-cookie';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +21,8 @@ export default function AlertDialogSlide({ photoInfo }) {
     const [errorMessage, setErrorMessage] = React.useState('')
     const [open, setOpen] = React.useState(false);
     const { isChange, setIsChange } = React.useContext(IsChange)
+    const cookie = new Cookies()
+    const token = cookie.get('token')
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -32,7 +35,7 @@ export default function AlertDialogSlide({ photoInfo }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axiosUpload.put(`/control/${valueInput?.id}`, valueInput)
+        axiosUpload.put(`/control/${valueInput?.id}`, valueInput, { headers: { Authorization: token } })
             .then((e) => {
                 setErrorMessage('')
                 setSuccessMessage(e?.data?.message)

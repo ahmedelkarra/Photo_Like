@@ -9,15 +9,18 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PhotoEdit from './PhotoEdit';
 import { axiosUpload } from '../utils/axiosUpload';
 import { IsChange } from '../context/IsChange';
+import { Cookies } from 'react-cookie';
 
 function PhotoEachEle({ photoInfo }) {
     const { isChange, setIsChange } = React.useContext(IsChange)
+    const cookie = new Cookies()
+    const token = cookie.get('token')
 
     const handleDelete = (e) => {
         e.preventDefault()
         const clientConfirm = window.confirm(`Are you sure for delete ${photoInfo?.title}`)
         if (clientConfirm) {
-            axiosUpload.delete(`/control/${photoInfo?._id}`)
+            axiosUpload.delete(`/control/${photoInfo?._id}`, { headers: { Authorization: token } })
                 .then((e) => {
                     console.log(e?.data?.message)
                     setIsChange(true)
