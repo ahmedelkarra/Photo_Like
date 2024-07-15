@@ -14,7 +14,7 @@ function UserPhoto() {
             </Grid>
 
             {photoInfo.length != 0 ?
-                <Grid item xs={12}>
+                <Grid xs={12} container rowSpacing={'20px'} columnSpacing={'10px'} margin={'10px 0'}>
                     {photoInfo?.map((ele) => {
                         return (
                             <PhotoEachEle key={ele?._id} photoInfo={ele} />
