@@ -5,8 +5,12 @@ const bcrypt = require('bcrypt')
 
 
 router.get('/me', async (req, res) => {
-    const token = req.cookies.token
+    res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
+    const token = req.headers.authorization
     const data = tokenVerify(token)
+    console.log(token);
+    console.log(data);
+    console.log(req.headers.authorization);
     if (data) {
         try {
             const user = await UserSchema.findById(data._id).select(['_id', 'fName', 'lName', 'email', 'pass'])
@@ -24,7 +28,7 @@ router.get('/me', async (req, res) => {
 
 router.put('/me', async (req, res) => {
     const { fName, lName, email, pass, newPass, confirmNewPass } = req.body
-    const token = req.cookies.token
+    const token = req.headers.authorization
     const data = tokenVerify(token)
     if (fName && lName && email && pass) {
         try {
@@ -62,6 +66,7 @@ router.put('/me', async (req, res) => {
 })
 
 router.delete('/me', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
     const { email, pass } = req.body
     if (email && pass) {
         try {
