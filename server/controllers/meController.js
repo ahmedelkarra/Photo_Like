@@ -1,10 +1,9 @@
 const { tokenVerify } = require('../helper/token')
 const UserSchema = require('../models/userSchema')
-const router = require('express').Router()
 const bcrypt = require('bcrypt')
 
 
-router.get('/me', async (req, res) => {
+const getUserInfo = async (req, res) => {
     res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
     const token = req.headers.authorization
     const data = tokenVerify(token)
@@ -21,9 +20,9 @@ router.get('/me', async (req, res) => {
             return res.status(400).json({ message: 'Invalid token' })
         }
     }
-})
+}
 
-router.put('/me', async (req, res) => {
+const updateUserInfo = async (req, res) => {
     const { fName, lName, email, pass, newPass, confirmNewPass } = req.body
     const token = req.headers.authorization
     const data = tokenVerify(token)
@@ -62,9 +61,9 @@ router.put('/me', async (req, res) => {
     } else {
         return res.status(400).json({ message: 'Please check your inputs' })
     }
-})
+}
 
-router.delete('/me', async (req, res) => {
+const deleteUser = async (req, res) => {
     res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
     const { email, pass } = req.body
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -90,7 +89,7 @@ router.delete('/me', async (req, res) => {
     } else {
         return res.status(400).json({ message: 'Please check your inputs' })
     }
-})
+}
 
 
-module.exports = router
+module.exports = { getUserInfo, updateUserInfo, deleteUser };
