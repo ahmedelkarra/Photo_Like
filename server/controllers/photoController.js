@@ -1,9 +1,7 @@
-const router = require('express').Router()
-const isUser = require('../middleware/isUser')
 const PhotoSchema = require('../models/photoSchema')
 
 
-router.get('/', isUser, async function (req, res) {
+const getUserPhotos = async (req, res) => {
     const { _id } = req.userInfo
     console.log(_id);
     try {
@@ -12,6 +10,6 @@ router.get('/', isUser, async function (req, res) {
     } catch (error) {
         return res.status(404).json({ message: 'User not found' })
     }
-});
+}
 
-module.exports = router;
+module.exports = { getUserPhotos };
