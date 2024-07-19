@@ -4,7 +4,7 @@ const router = require('express').Router()
 
 
 router.use(async (req, res, next) => {
-    const token = req.cookies.token
+    const token = req.headers.authorization
     const data = tokenVerify(token)
     if (data) {
         try {
