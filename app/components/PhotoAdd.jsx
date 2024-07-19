@@ -34,26 +34,33 @@ export default function PhotoAdd({ status }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const formData = new FormData()
-        formData.append('title', valueInput.title)
-        formData.append('body', valueInput.body)
-        formData.append('image', valueInput.image)
-        axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: token } })
-            .then((e) => {
-                setErrorMessage('')
-                setSuccessMessage(e?.data?.message)
-                setIsChange(true)
-                setTimeout(() => {
-                    setSuccessMessage('')
-                    handleClose()
-                }, 3000)
-            })
-            .catch((err) => {
-                setErrorMessage(err?.response?.data?.message)
-                setTimeout(() => {
+        if (valueInput.title && valueInput.body && valueInput.image) {
+            const formData = new FormData()
+            formData.append('title', valueInput.title)
+            formData.append('body', valueInput.body)
+            formData.append('image', valueInput.image)
+            axiosUpload.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: token } })
+                .then((e) => {
                     setErrorMessage('')
-                }, 3000)
-            })
+                    setSuccessMessage(e?.data?.message)
+                    setIsChange(true)
+                    setTimeout(() => {
+                        setSuccessMessage('')
+                        handleClose()
+                    }, 3000)
+                })
+                .catch((err) => {
+                    setErrorMessage(err?.response?.data?.message)
+                    setTimeout(() => {
+                        setErrorMessage('')
+                    }, 3000)
+                })
+        } else {
+            setErrorMessage('Please fill out all inputs')
+            setTimeout(() => {
+                setErrorMessage('')
+            }, 3000)
+        }
     }
     return (
         <Typography component={'div'}>
@@ -82,7 +89,7 @@ export default function PhotoAdd({ status }) {
                         </Typography>
                         {successMessage && <Alert severity="success" sx={{ width: '100%', margin: '10px auto' }}>{successMessage}</Alert>}
                         {errorMessage && <Alert severity="error" sx={{ width: '100%', margin: '10px auto' }}>{errorMessage}</Alert>}
-                        <TextField variant='filled' fullWidth label='Title' required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 20 }} onChange={(e) => { setValueInput({ ...valueInput, title: e.target.value }) }} />
+                        <TextField variant='filled' fullWidth label='Title' sx={{ margin: '2px 0' }} inputProps={{ maxLength: 20 }} required onChange={(e) => { setValueInput({ ...valueInput, title: e.target.value }) }} />
                         <TextField multiline variant='filled' rows={4} label='Body' fullWidth required sx={{ margin: '2px 0' }} inputProps={{ maxLength: 50 }} onChange={(e) => { setValueInput({ ...valueInput, body: e.target.value }) }} />
                         <TextField type='file' variant='outlined' color='primary' inputProps={{ accept: "image/*" }} fullWidth required sx={{ margin: '2px 0' }} onChange={(e) => { setValueInput({ ...valueInput, image: e.target.files[0] }) }} />
                         <Typography sx={{ mt: 2 }} textAlign={'center'}>
