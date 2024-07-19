@@ -15,7 +15,7 @@ const photo = require('./routes/photoRoute')
 const upload = require('./routes/upload')
 const like = require('./routes/likeRoute')
 const control = require('./routes/controlRoute')
-const photoAll = require('./routes/photoAll')
+const photoAll = require('./routes/photoAllRoute')
 const cors = require('cors')
 
 
