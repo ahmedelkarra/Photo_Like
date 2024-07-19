@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt')
 
 router.post('/login', async (req, res) => {
     const { email, pass } = req.body
-    if (email && pass) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailStatus = emailRegex.test(email);
+    if (emailStatus && pass) {
         try {
             const user = await UserSchema.findOne({ email: email }).select(['_id', 'fName', 'lName', 'email', 'pass'])
             if (user) {
