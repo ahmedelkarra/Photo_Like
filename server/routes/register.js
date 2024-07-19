@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt')
 
 router.post('/register', async (req, res) => {
     const { fName, lName, email, pass, confirmPass } = req.body
-    if (fName && lName && email && pass && pass === confirmPass) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailStatus = emailRegex.test(email);
+    if (fName && lName && emailStatus && pass && pass === confirmPass) {
         try {
             const hashPass = bcrypt.hashSync(pass, 12)
             const user = await UserSchema.create({ fName: fName.trim().toLowerCase(), lName: lName.trim().toLowerCase(), email: email.trim().toLowerCase(), pass: hashPass })
@@ -18,7 +20,12 @@ router.post('/register', async (req, res) => {
                 return res.status(403).json({ message: 'Email is already used' })
             }
         } catch (error) {
-            return res.status(403).json({ message: 'Email is already used' })
+            const messageError = error?.errorResponse?.errmsg
+            if (messageError?.includes('duplicate')) {
+                return res.status(403).json({ message: 'Email is already used' })
+            } else {
+                return res.status(403).json({ message: 'Please check your inputs length' })
+            }
         }
     } else if (pass !== confirmPass) {
         return res.status(400).json({ message: 'Your password not match' })
