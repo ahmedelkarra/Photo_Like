@@ -1,4 +1,3 @@
-# React + Vite
 # Photo Like
 
 This is an Express.js and React + Vite project.
