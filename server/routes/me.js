@@ -8,9 +8,6 @@ router.get('/me', async (req, res) => {
     res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
     const token = req.headers.authorization
     const data = tokenVerify(token)
-    console.log(token);
-    console.log(data);
-    console.log(req.headers.authorization);
     if (data) {
         try {
             const user = await UserSchema.findById(data._id).select(['_id', 'fName', 'lName', 'email', 'pass'])
@@ -30,7 +27,9 @@ router.put('/me', async (req, res) => {
     const { fName, lName, email, pass, newPass, confirmNewPass } = req.body
     const token = req.headers.authorization
     const data = tokenVerify(token)
-    if (fName && lName && email && pass) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailStatus = emailRegex.test(email);
+    if (fName && fName.length <= 20 && lName && lName.length <= 20 && emailStatus && pass) {
         try {
             const user = await UserSchema.findById(data._id).select(['_id', 'fName', 'lName', 'email', 'pass'])
             if (user) {
@@ -68,7 +67,9 @@ router.put('/me', async (req, res) => {
 router.delete('/me', async (req, res) => {
     res.header("Access-Control-Allow-Origin", 'https://photo-like-one.vercel.app');
     const { email, pass } = req.body
-    if (email && pass) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailStatus = emailRegex.test(email);
+    if (emailStatus && pass) {
         try {
             const user = await UserSchema.findOne({ email: email }).select(['_id', 'fName', 'lName', 'email', 'pass'])
             if (user) {
