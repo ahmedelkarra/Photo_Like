@@ -21,7 +21,7 @@ const cors = require('cors')
 
 const app = express();
 coonectDB()
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+app.use(cors({ origin: ['https://photo-like-one.vercel.app', 'http://localhost:5173'], credentials: true }))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
