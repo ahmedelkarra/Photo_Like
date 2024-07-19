@@ -35,22 +35,41 @@ export default function Register() {
         e.preventDefault()
         const expires = new Date();
         expires.setDate(expires.getDate() + 1);
-        try {
-            const data = await axiosControl.post('/register', valueInputs)
-            setErrorMessage('')
-            setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true, expires })
-            setSuccessMessage(data?.data?.message)
-            setUserInfo(data?.data?.data)
-            setTimeout(() => {
-                setSuccessMessage('')
-                navigate('/')
-                setIsUser(true)
-            }, 3000)
-        } catch (error) {
-            setErrorMessage(error?.response?.data?.message)
-            setTimeout(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailStatus = emailRegex.test(valueInputs.email);
+        if (emailStatus && valueInputs.fName && valueInputs.lName && valueInputs.pass && valueInputs.pass === valueInputs.confirmPass) {
+            try {
+                const data = await axiosControl.post('/register', valueInputs)
                 setErrorMessage('')
-            }, 3000)
+                setCookie('token', data?.data?.token, { path: '/', sameSite: 'none', secure: true, expires })
+                setSuccessMessage(data?.data?.message)
+                setUserInfo(data?.data?.data)
+                setTimeout(() => {
+                    setSuccessMessage('')
+                    navigate('/')
+                    setIsUser(true)
+                }, 3000)
+            } catch (error) {
+                setErrorMessage(error?.response?.data?.message)
+                setTimeout(() => {
+                    setErrorMessage('')
+                }, 3000)
+            }
+        } else if (!emailStatus) {
+            setErrorMessage('Please enter a valid email');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        } else if (valueInputs.pass !== valueInputs.confirmPass) {
+            setErrorMessage('Your password not match');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        } else {
+            setErrorMessage('Please check your inputs');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
         }
     }
     return (
