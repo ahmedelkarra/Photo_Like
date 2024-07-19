@@ -14,7 +14,7 @@ const me = require('./routes/me')
 const photo = require('./routes/photo')
 const upload = require('./routes/upload')
 const like = require('./routes/like')
-const control = require('./routes/control')
+const control = require('./routes/controlRoute')
 const photoAll = require('./routes/photoAll')
 const cors = require('cors')
 

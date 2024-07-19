@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 
-router.put('/control/:id', isUser, async function (req, res) {
+const updatePhoto = async (req, res) => {
     const { title, body } = req.body
     const idParam = req.params.id
     const { _id } = req.userInfo
@@ -19,10 +19,10 @@ router.put('/control/:id', isUser, async function (req, res) {
     } else {
         return res.status(400).json({ message: 'Please check your inputs' })
     }
-});
+};
 
 
-router.delete('/control/:id', isUser, async function (req, res) {
+const deletePhoto = async (req, res) => {
     const idParam = req.params.id
     const { _id } = req.userInfo
     try {
@@ -32,6 +32,6 @@ router.delete('/control/:id', isUser, async function (req, res) {
     } catch (error) {
         return res.status(404).json({ message: 'Photo not found' })
     }
-});
+};
 
-module.exports = router;
+module.exports = { updatePhoto, deletePhoto };
