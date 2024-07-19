@@ -4,7 +4,7 @@ const LikeSchema = require('../models/likeSchema');
 const PhotoSchema = require('../models/photoSchema');
 
 
-router.get('/like', async function (req, res) {
+const getLikes = async (req, res) => {
     try {
         const likes = await LikeSchema.find({})
         if (likes) {
@@ -15,9 +15,9 @@ router.get('/like', async function (req, res) {
     } catch (error) {
         return res.status(404).json({ message: 'Photo not found' })
     }
-});
+};
 
-router.post('/like/:id', isUser, async function (req, res) {
+const toggleLike = async (req, res) => {
     const { _id } = req.userInfo
     const photoId = req.params.id
 
@@ -44,7 +44,7 @@ router.post('/like/:id', isUser, async function (req, res) {
     } else {
         return res.status(400).json({ message: 'Something went wrong' })
     }
-});
+};
 
 
-module.exports = router;
+module.exports = { getLikes, toggleLike };
