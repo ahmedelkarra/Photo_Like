@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@mui/material'
 import { green } from '@mui/material/colors'
 import React, { useContext } from 'react'
-import HomeLastPhotos from './HomeLastPhotos'
-import HomeHeroSection from './HomeHeroSection'
+import HomeLastPhotos from '../components/HomeLastPhotos'
+import HomeHeroSection from '../components/HomeHeroSection'
 import { PhotoInfoAll } from '../context/PhotoInfoAll'
 
 function Home() {

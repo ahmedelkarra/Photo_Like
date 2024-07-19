@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import * as React from 'react';
-import PhotoEachEle from './PhotoEachEle';
+import PhotoEachEle from '../components/PhotoEachEle';
 import { PhotoInfo } from '../context/PhotoInfo';
 
 

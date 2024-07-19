@@ -1,19 +1,19 @@
 import { Typography } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from '../components/Login';
-import Register from '../components/Register';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Home from '../components/Home';
-import UserEdit from '../components/UserEdit';
-import UserPhoto from '../components/UserPhoto';
-import UserMe from '../components/UserMe';
+import Home from '../pages/Home';
+import UserEdit from '../pages/UserEdit';
+import UserPhoto from '../pages/UserPhoto';
+import UserMe from '../pages/UserMe';
 import { IsUser } from '../context/IsUser';
 import { IsChange } from '../context/IsChange';
 import { UserInfo } from '../context/UserInfo';
 import { useEffect, useState } from 'react';
-import AlreadyUser from '../components/AlreadyUser';
-import NotFoundPage from '../components/NotFoundPage';
+import AlreadyUser from '../pages/AlreadyUser';
+import NotFoundPage from '../pages/NotFoundPage';
 import { axiosControl } from '../utils/axiosControl';
 import { Cookies } from 'react-cookie';
 import { PhotoInfo } from '../context/PhotoInfo';

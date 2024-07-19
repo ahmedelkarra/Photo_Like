@@ -1,8 +1,8 @@
 import { AppBar, Typography } from '@mui/material'
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import UserHeader from './UserHeader'
-import UserShow from './UserShow'
+import UserHeader from '../components/UserHeader'
+import UserShow from '../components/UserShow'
 
 function UserMe() {
     const location = useLocation().pathname
