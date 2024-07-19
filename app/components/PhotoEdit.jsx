@@ -35,22 +35,29 @@ export default function AlertDialogSlide({ photoInfo }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axiosUpload.put(`/control/${valueInput?.id}`, valueInput, { headers: { Authorization: token } })
-            .then((e) => {
-                setErrorMessage('')
-                setSuccessMessage(e?.data?.message)
-                setIsChange(true)
-                setTimeout(() => {
-                    setSuccessMessage('')
-                    handleClose()
-                }, 3000)
-            })
-            .catch((err) => {
-                setErrorMessage(err?.response?.data?.message)
-                setTimeout(() => {
+        if (valueInput.title && valueInput.body) {
+            axiosUpload.put(`/control/${valueInput?.id}`, valueInput, { headers: { Authorization: token } })
+                .then((e) => {
                     setErrorMessage('')
-                }, 3000)
-            })
+                    setSuccessMessage(e?.data?.message)
+                    setIsChange(true)
+                    setTimeout(() => {
+                        setSuccessMessage('')
+                        handleClose()
+                    }, 3000)
+                })
+                .catch((err) => {
+                    setErrorMessage(err?.response?.data?.message)
+                    setTimeout(() => {
+                        setErrorMessage('')
+                    }, 3000)
+                })
+        } else {
+            setErrorMessage('Please fill out all inputs')
+            setTimeout(() => {
+                setErrorMessage('')
+            }, 3000)
+        }
     }
 
     React.useEffect(() => {
