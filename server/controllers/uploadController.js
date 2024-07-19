@@ -31,7 +31,7 @@ const upload = multer({
 }).single('image')
 
 
-router.post('/upload', isUser, (req, res) => {
+const uploadPhoto = async (req, res) => {
     const host = `${req.protocol}://${req.get('host')}`
     const { _id, fName, lName } = req.userInfo
     if (_id) {
@@ -56,6 +56,6 @@ router.post('/upload', isUser, (req, res) => {
     } else {
         return res.status(400).json({ message: 'Please check your inputs' })
     }
-});
+}
 
-module.exports = router;
+module.exports = { uploadPhoto };
