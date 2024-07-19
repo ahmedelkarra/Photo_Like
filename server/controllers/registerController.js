@@ -1,10 +1,9 @@
 const { tokenSign, tokenVerify } = require('../helper/token')
 const UserSchema = require('../models/userSchema')
-const router = require('express').Router()
 const bcrypt = require('bcrypt')
 
 
-router.post('/register', async (req, res) => {
+const registerUser = async (req, res) => {
     const { fName, lName, email, pass, confirmPass } = req.body
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailStatus = emailRegex.test(email);
@@ -32,6 +31,6 @@ router.post('/register', async (req, res) => {
     } else {
         return res.status(400).json({ message: 'Please check your inputs' })
     }
-})
+}
 
-module.exports = router
+module.exports = { registerUser };
