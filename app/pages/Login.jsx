@@ -34,19 +34,33 @@ export default function InputAdornments() {
         e.preventDefault();
         const expires = new Date();
         expires.setDate(expires.getDate() + 1);
-        try {
-            const response = await axiosControl.post('/login', valueInputs);
-            setErrorMessage('');
-            setCookie('token', response?.data?.token, { path: '/', sameSite: 'none', secure: true, expires });
-            setSuccessMessage(response?.data?.message);
-            setUserInfo(response?.data?.data);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailStatus = emailRegex.test(valueInputs.email);
+        if (emailStatus && valueInputs.pass) {
+            try {
+                const response = await axiosControl.post('/login', valueInputs);
+                setErrorMessage('');
+                setCookie('token', response?.data?.token, { path: '/', sameSite: 'none', secure: true, expires });
+                setSuccessMessage(response?.data?.message);
+                setUserInfo(response?.data?.data);
+                setTimeout(() => {
+                    setSuccessMessage('');
+                    navigate('/');
+                    setIsUser(true);
+                }, 3000);
+            } catch (error) {
+                setErrorMessage(error?.response?.data?.message || 'An error occurred');
+                setTimeout(() => {
+                    setErrorMessage('');
+                }, 3000);
+            }
+        } else if (!emailStatus) {
+            setErrorMessage('Please enter a valid email');
             setTimeout(() => {
-                setSuccessMessage('');
-                navigate('/');
-                setIsUser(true);
+                setErrorMessage('');
             }, 3000);
-        } catch (error) {
-            setErrorMessage(error?.response?.data?.message || 'An error occurred');
+        } else {
+            setErrorMessage('Please check your inputs');
             setTimeout(() => {
                 setErrorMessage('');
             }, 3000);
