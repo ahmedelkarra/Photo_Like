@@ -9,11 +9,15 @@ router.put('/control/:id', isUser, async function (req, res) {
     const { title, body } = req.body
     const idParam = req.params.id
     const { _id } = req.userInfo
-    try {
-        await PhotoSchema.findOneAndUpdate({ _id: idParam, author: _id }, { title, body })
-        return res.status(200).json({ message: 'Photo has been updated' })
-    } catch (error) {
-        return res.status(404).json({ message: 'Photo not found' })
+    if (title && title.length <= 20 && body && body.length <= 50) {
+        try {
+            await PhotoSchema.findOneAndUpdate({ _id: idParam, author: _id }, { title, body })
+            return res.status(200).json({ message: 'Photo has been updated' })
+        } catch (error) {
+            return res.status(404).json({ message: 'Photo not found' })
+        }
+    } else {
+        return res.status(400).json({ message: 'Please check your inputs' })
     }
 });
 
