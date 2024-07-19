@@ -22,20 +22,39 @@ function UserEdit() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            const data = await axiosControl.put('/me', valueInputs, { headers: { Authorization: token } })
-            setErrorMessage('')
-            setSuccessMessage(data?.data?.message)
-            setTimeout(() => {
-                setSuccessMessage('')
-                setIsChange(true)
-                navigate('/me')
-            }, 3000)
-        } catch (error) {
-            setErrorMessage(error?.response?.data?.message)
-            setTimeout(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailStatus = emailRegex.test(valueInputs.email);
+        if (emailStatus && valueInputs.fName && valueInputs.lName && valueInputs.pass && valueInputs.newPass === valueInputs.confirmNewPass) {
+            try {
+                const data = await axiosControl.put('/me', valueInputs, { headers: { Authorization: token } })
                 setErrorMessage('')
-            }, 3000)
+                setSuccessMessage(data?.data?.message)
+                setTimeout(() => {
+                    setSuccessMessage('')
+                    setIsChange(true)
+                    navigate('/me')
+                }, 3000)
+            } catch (error) {
+                setErrorMessage(error?.response?.data?.message)
+                setTimeout(() => {
+                    setErrorMessage('')
+                }, 3000)
+            }
+        } else if (!emailStatus) {
+            setErrorMessage('Please enter a valid email');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        } else if (valueInputs.newPass !== valueInputs.confirmNewPass) {
+            setErrorMessage('Your password not match');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        } else {
+            setErrorMessage('Please check your inputs');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
         }
     }
 
